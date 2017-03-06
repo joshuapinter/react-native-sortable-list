@@ -68,6 +68,7 @@ class Basic extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>React Native Sortable List</Text>
         <SortableList
           style={styles.list}
           contentContainerStyle={styles.contentContainer}
@@ -88,32 +89,43 @@ class Row extends Component {
     super(props);
 
     this._active = new Animated.Value(0);
-    this._style = Platform.OS === 'ios'
-      ? {
-        shadowRadius: this._active.interpolate({
-          inputRange: [0, 1],
-          outputRange: [2, 10],
-        }),
-        transform: [{
-          scale: this._active.interpolate({
+
+    this._style = {
+      ...Platform.select({
+        ios: {
+          transform: [{
+            scale: this._active.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 1.1],
+            }),
+          }],
+          shadowRadius: this._active.interpolate({
             inputRange: [0, 1],
-            outputRange: [1, 1.1],
+            outputRange: [2, 10],
           }),
-        }],
-      }
-      : {
-        backgroundColor: this._active.interpolate({
-          inputRange: [0, 1],
-          outputRange: ['#fff', '#e9e9e9'],
-        }),
-      };
+        },
+
+        android: {
+          transform: [{
+            scale: this._active.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 1.07],
+            }),
+          }],
+          elevation: this._active.interpolate({
+            inputRange: [0, 1],
+            outputRange: [2, 6],
+          }),
+        },
+      })
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.active !== nextProps.active) {
       Animated.timing(this._active, {
-        duration: 100,
-        easing: Easing.out(Easing.quad),
+        duration: 300,
+        easing: Easing.bounce,
         toValue: Number(nextProps.active),
       }).start();
     }
@@ -139,18 +151,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#eee',
 
     ...Platform.select({
       ios: {
-        backgroundColor: '#eee',
-        paddingTop: 60,
-      },
-
-      android: {
-        backgroundColor: '#fff',
-        paddingTop: 0,
+        paddingTop: 20,
       },
     }),
+  },
+
+  title: {
+    fontSize: 20,
+    paddingVertical: 20,
+    color: '#999999',
   },
 
   list: {
@@ -159,7 +172,16 @@ const styles = StyleSheet.create({
 
   contentContainer: {
     width: window.width,
-    paddingHorizontal: Platform.OS === 'ios' ? 30 : 0,
+
+    ...Platform.select({
+      ios: {
+        paddingHorizontal: 30,
+      },
+
+      android: {
+        paddingHorizontal: 0,
+      }
+    })
   },
 
   row: {
@@ -167,14 +189,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: 16,
-
     height: 80,
+    flex: 1,
+    marginTop: 7,
+    marginBottom: 12,
+    borderRadius: 4,
+    
 
     ...Platform.select({
       ios: {
         width: window.width - 30 * 2,
-        marginVertical: 5,
-        borderRadius: 4,
         shadowColor: 'rgba(0,0,0,0.2)',
         shadowOpacity: 1,
         shadowOffset: {height: 2, width: 2},
@@ -182,10 +206,9 @@ const styles = StyleSheet.create({
       },
 
       android: {
-        width: window.width,
-        borderTopWidth: StyleSheet.hairlineWidth,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderColor: '#e5e5e5',
+        width: window.width - 30 * 2,
+        elevation: 0,
+        marginHorizontal: 30,
       },
     })
   },
@@ -199,6 +222,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 24,
+    color: '#222222',
   },
 });
 
