@@ -17,8 +17,8 @@ export default class SortableList extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     order: PropTypes.arrayOf(PropTypes.any),
-    style: View.propTypes.style,
-    contentContainerStyle: View.propTypes.style,
+    style: ViewPropTypes.style,
+    contentContainerStyle: ViewPropTypes.style,
     sortingEnabled: PropTypes.bool,
     scrollEnabled: PropTypes.bool,
 
