@@ -1,5 +1,6 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {Animated, PanResponder, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
 import {shallowEqual} from './utils';
 
 const ACTIVATION_DELAY = 200;
