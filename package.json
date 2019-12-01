@@ -1,6 +1,6 @@
 {
   "name": "react-native-sortable-list",
-  "version": "1.0.0",
+  "version": "0.0.23",
   "description": "React Native Sortable List component",
   "main": "index.js",
   "repository": {
@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/gitim/react-native-sortable-list",
   "dependencies": {
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.5.10"
   }
 }
